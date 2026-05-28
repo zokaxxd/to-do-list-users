@@ -1,0 +1,49 @@
+import sqlite3
+from fastapi import FastAPI, HTTPException, depends
+from pydantic import BaseModel, EmailStr
+
+
+app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+#-----------model from users
+class User(BaseModel):
+    name: str
+    age: int
+    email: EmailStr
+    password: str
+
+#---------------table 
+
+def create_table():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,  
+        name TEXT,
+        age INTEGER,
+        email TEXT UNIQUE,
+        password TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+create_table()
+
+def get_db():
+    conn = sqlite3.connect('users.db')
+    return conn
+
+#-----------------Routes
+
+@app.get("/")
+def home():
+    return {"message": "Welcome to the To Do List API!"}
+    
