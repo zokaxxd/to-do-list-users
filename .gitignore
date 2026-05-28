@@ -1,7 +1,2 @@
-.idea/
-.vscode/
-__pycache__/
-*.db
-uv.lock
-.venv
-pyproject.toml
+users.db
+__pycache__
