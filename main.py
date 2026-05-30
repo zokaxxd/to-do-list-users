@@ -1,7 +1,18 @@
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel, EmailStr, field_validator
 import sqlite3
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, EmailStr
+from jose import JWTError, jwt
+from datetime import datetime, timedelta
+from passlib.context import CryptContext
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+SECRET_KEY = "zoka_To_do_List_backend_api"
+ALGORITHM = "HS256"
+ACESS_TOKEN_EXPIRE_MINUTES = 30
+
 
 app = FastAPI()
 app.add_middleware(
@@ -10,6 +21,31 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+#-----------------Token functions
+
+def create_token(data: dict):
+    dados = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACESS_TOKEN_EXPIRE_MINUTES)
+    dados.update({"exp": expire})
+    token = jwt.encode(dados, SECRET_KEY, algorithm=ALGORITHM)
+    return token
+
+def verify_token(token: str = Depends(oauth2_scheme)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("sub")
+        email = payload.get("email")
+
+        if user_id is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        
+        return {"Id": user_id, "email": email}
+    
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
+
 
 #-----------model from users
 class User(BaseModel):
