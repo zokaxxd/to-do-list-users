@@ -79,9 +79,46 @@ def get_db():
 
 #-----------------Routes
 
-@app.get("/")
-def home():
-    return {"message": "Welcome to the To Do List API!"}
+@app.get("/users")
+def all_users(name: str = None, limit: int = 10, offset: int = 0):
+    conn, cursor = get_db()
+
+    query = "SELECT * FROM users"
+    params = ()
+
+    if name: 
+        query += " WHERE name LIKE ?"
+        params = (f"%{name}%",)   
+    if name:
+        cursor.execute("SELECT COUNT(*) FROM users WHERE name LIKE ?", (f"%{name}%",))
+    else:
+        cursor.execute("SELECT COUNT(*) FROM users")
+
+    total = cursor.fetchone()[0]
+
+    query += " LIMIT ? OFFSET ?"
+    params += (limit, offset)
+
+    cursor.execute(query, params)
+    data = cursor.fetchall()
+    conn.close()
+
+    users = [
+        {
+            "id": u[0],
+            "name": u[1],
+            "age": u[2],
+            "email": u[3]
+        }
+        for u in data
+    ]
+    return{
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "users": users
+    }
+
 
 @app.post("/users")
 def create_user(User: User):
@@ -102,6 +139,7 @@ def create_user(User: User):
 
     return {"message": "User created successfully!"}
 
+
 @app.get("/profile")
 def profile(user: dict = Depends(verify_token)):
     conn, cursor = get_db()
@@ -114,3 +152,5 @@ def profile(user: dict = Depends(verify_token)):
         "your age": data[1],
         "your email": data[2]
     }
+
+
