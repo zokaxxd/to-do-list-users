@@ -75,7 +75,8 @@ create_table()
 
 def get_db():
     conn = sqlite3.connect('users.db')
-    return conn
+    cursor = conn.cursor()
+    return conn, cursor
 
 #-----------------Routes
 
@@ -143,14 +144,14 @@ def create_user(User: User):
 @app.get("/profile")
 def profile(user: dict = Depends(verify_token)):
     conn, cursor = get_db()
-    cursor.execute("SELECT * FROM users WHERE password = ?", (user["password"],))
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user["Id"],))
     data = cursor.fetchone()
     conn.close()
 
     return {
-        "your name": data[0],
-        "your age": data[1],
-        "your email": data[2]
+        "your name": data[1],
+        "your age": data[2],
+        "your email": data[3]
     }
 
 
