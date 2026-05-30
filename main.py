@@ -65,3 +65,16 @@ def create_user(User: User):
     conn.close()
 
     return {"message": "User created successfully!"}
+
+@app.get("/profile")
+def profile(user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM users WHERE password = ?", (user["password"],))
+    data = cursor.fetchone()
+    conn.close()
+
+    return {
+        "your name": data[0],
+        "your age": data[1],
+        "your email": data[2]
+    }
