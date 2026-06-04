@@ -46,6 +46,11 @@ body
     padding: 1.6vh;
     width: 30vh;
 }
+.ema:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
+}
 .pass
 {
     color: #ffffff;
@@ -53,6 +58,11 @@ body
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
+}
+.pass:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
 }
 .age-
 {
@@ -62,6 +72,11 @@ body
     padding: 1.6vh;
     width: 30vh;
 }
+.age-:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
+}
 .nam-
 {
     color: #ffffff;
@@ -69,6 +84,11 @@ body
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
+}
+.nam-:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
 }
 .age
 {
@@ -97,4 +117,5 @@ body
 {
     background-color: #ffffff;
     color: #0c0c0c;
+    transition: 0.9s;
 }

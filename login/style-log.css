@@ -39,6 +39,11 @@ body
     padding: 1.6vh;
     width: 30vh;
 }
+.email:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
+}
 .pas
 {
     font-size: 2vh;
@@ -52,6 +57,11 @@ body
     border-radius: 1vh;
     padding: 1.6vh;
     width: 30vh;
+}
+.password:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
 }
 .log-
 {
@@ -69,6 +79,7 @@ body
 {
     background-color: #ffffff;
     color: #0c0c0c;
+    transition: 0.9s;
 }
 .idn
 {

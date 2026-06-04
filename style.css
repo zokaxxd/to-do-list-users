@@ -19,8 +19,46 @@ body
     height: 0.1vh;
     width: 30vh;
 }
+.box-msg:hover
+{
+    border: 2px solid #ffffff;
+    transition: 0.5s;
+}
 .buttons
 {
-    
-    margin-top: 60vh;
+    margin-top: 55vh;
+}
+.clea
+{
+margin-top: 4vh;
+    padding: 1.6vh;
+    width: 30vh;
+    background-color: #0c0c0c;
+    color: #ffffff;
+    border-radius: 1vh;
+    border: none;
+    cursor: pointer;
+}
+.clea:hover
+{
+    background-color: #ffffff;
+    color: #0c0c0c;
+    transition: 0.9s;
+}
+.log
+{
+    margin-top: 4vh;
+    padding: 1.6vh;
+    width: 30vh;
+    background-color: #0c0c0c;
+    color: #ffffff;
+    border-radius: 1vh;
+    border: none;
+    cursor: pointer;
+}
+.log:hover
+{
+    background-color: #ffffff;
+    color: #0c0c0c;
+    transition: 0.9s;
 }
