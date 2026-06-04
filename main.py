@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 SECRET_KEY = "zoka_To_do_List_backend_api"
 ALGORITHM = "HS256"
 ACESS_TOKEN_EXPIRE_MINUTES = 30
