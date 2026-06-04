@@ -22,6 +22,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+#-------------password hash
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def hash_password(password: str):
+    return pwd_context.hash(password[:72])
+def verify_password(password: str, hashed_password: str):
+    return pwd_context.verify(password[:72], hashed_password)
+
+
 
 #-----------------Token functions
 
@@ -132,8 +142,10 @@ def create_user(User: User):
         conn.close()
         raise HTTPException(status_code=400, detail="Email already exists")
     
-    cursor.execute("INSERT INTO users (name, age, email, password) VALUES (?, ?, ?, ?)",
-                (User.name, User.age, User.email, User.password)
+    senha_hash = hash_password(User.password)
+    
+    cursor.execute("INSERT INTO users (email, password, age, name) VALUES (?, ?, ?, ?)",
+                (User.email, senha_hash, User.age, User.name)
             )
     conn.commit()
     conn.close()
@@ -154,4 +166,19 @@ def profile(user: dict = Depends(verify_token)):
         "your email": data[3]
     }
 
+@app.post("/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    conn, cursor = get_db()
 
+    cursor.execute("SELECT * FROM users WHERE email = ?", (form_data.username,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    if not verify_password(form_data.password, user[4]):
+        raise HTTPException(status_code=400, detail="Incorrect password")
+    
+    token = create_token({"sub": user[0], "email": user[3]})
+
+    return {"access_token": token, "token_type": "bearer"}
