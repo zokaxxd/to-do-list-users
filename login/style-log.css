@@ -1,0 +1,76 @@
+body
+{
+    background-color: #1b1b1b;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    
+}
+.cont
+{
+    margin-top: 10vh;
+    margin: 5vh;
+    border: 1px solid #0c0c0c;
+    background-color: #242424;
+    width: 47vh;
+    height: 60vh;
+    border-radius: 1vh;
+}
+.log
+{
+    margin-bottom: 10vh;
+    font-size: 6vh;
+    color: #ffffff;
+}
+.ema
+{
+    font-size: 2vh;
+    margin-top: 9vh;
+    margin-bottom: 0.5vh;
+}
+.email
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.pas
+{
+    font-size: 2vh;
+    margin-top: 3vh;
+    margin-bottom: 0.5vh;
+}
+.password
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.log-
+{
+    margin-bottom: 16vh;
+    margin-top: 4vh;
+    padding: 1.6vh;
+    width: 30vh;
+    background-color: #0c0c0c;
+    color: #ffffff;
+    border-radius: 1vh;
+    border: none;
+    cursor: pointer;
+}
+.log-:hover
+{
+    background-color: #ffffff;
+    color: #0c0c0c;
+}
+.idn
+{
+    font-size: 2vh;
+}

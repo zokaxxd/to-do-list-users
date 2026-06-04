@@ -1,0 +1,100 @@
+body
+{
+    background-color: #1b1b1b;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    
+}
+.reg
+{
+    margin-bottom: 6vh;
+    font-size: 6vh;
+    color: #ffffff;
+}
+.wrapper
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vh;
+}
+.cont
+{
+    margin-top: 10vh;
+    margin: 5vh;
+    border: 1px solid #0c0c0c;
+    background-color: #242424;
+    width: 47vh;
+    height: 60vh;
+    border-radius: 1vh;
+}
+.email
+{
+    margin-top: 6vh;
+    margin: 2vh;
+}
+.ema
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.pass
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.age-
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.nam-
+{
+    color: #ffffff;
+    background-color: #181818;
+    border-radius: 1vh;
+    padding: 1.6vh;
+    width: 30vh;
+}
+.age
+{
+    margin: 2vh;
+}
+.pas
+{
+    margin: 2vh;
+}
+.nam
+{
+    margin: 1vh;
+}
+.reg-btn
+{
+    margin-top: 4vh;
+    padding: 1.6vh;
+    width: 30vh;
+    background-color: #0c0c0c;
+    color: #ffffff;
+    border-radius: 1vh;
+    border: none;
+    cursor: pointer;
+}
+.reg-btn:hover
+{
+    background-color: #ffffff;
+    color: #0c0c0c;
+}
