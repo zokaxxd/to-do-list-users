@@ -32,7 +32,6 @@ def verify_password(password: str, hashed_password: str):
     return pwd_context.verify(password[:72], hashed_password)
 
 
-
 #-----------------Token functions
 
 def create_token(data: dict):
@@ -53,7 +52,7 @@ def verify_token(token: str = Depends(oauth2_scheme)):
         
         return {"Id": user_id, "email": email}
     
-    except jwt.ExpiredSignatureError:
+    except JWTError:
         raise HTTPException(status_code=401, detail="Token expired")
 
 
@@ -64,7 +63,25 @@ class User(BaseModel):
     email: EmailStr
     password: str
 
-#---------------table 
+class TaskCreate(BaseModel):
+    title: str
+    
+
+#---------------tables 
+def create_table_tasks():
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        completed INTEGER DEFAULT 0,
+        user_id INTEGER,
+        )
+        """)
+    conn.commit()
+    conn.close()
+create_table_tasks()
 
 def create_table():
     conn = sqlite3.connect('users.db')
@@ -80,7 +97,6 @@ def create_table():
     """)
     conn.commit()
     conn.close()
-
 create_table()
 
 def get_db():
@@ -130,7 +146,6 @@ def all_users(name: str = None, limit: int = 10, offset: int = 0):
         "users": users
     }
 
-
 @app.post("/users")
 def create_user(User: User):
     conn, cursor = get_db()
@@ -151,7 +166,6 @@ def create_user(User: User):
     conn.close()
 
     return {"message": "User created successfully!"}
-
 
 @app.get("/profile")
 def profile(user: dict = Depends(verify_token)):
@@ -179,6 +193,68 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     if not verify_password(form_data.password, user[4]):
         raise HTTPException(status_code=400, detail="Incorrect password")
     
-    token = create_token({"sub": user[0], "email": user[3]})
+    token = create_token({"sub": str(user[0]), "email": user[3]})
 
     return {"access_token": token, "token_type": "bearer"}
+
+@app.post("/tasks")
+def create_task(task: TaskCreate, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("INSERT INTO tasks (title, user_id) VALUES (?,  ?)",
+                    (task.title, user["Id"])
+                )
+    conn.commit()
+    conn.close()
+
+    return {"message": "Task created successfully!"}
+
+@app.get("/tasks")
+def get_tasks(user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM tasks WHERE user_id = ?", (user["Id"],))
+    data = cursor.fetchall()
+    conn.close()
+
+    tasks = [
+        {
+            "id": t[0],
+            "title": t[1],
+            "completed": bool(t[2])
+        }
+        for t in data
+    ]
+    return {"tasks": tasks}
+
+@app.put("/tasks/{task_id}")
+def update_task(task_id: int, task: TaskCreate, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", (task_id, user["Id"]))
+    existing_task = cursor.fetchone()
+
+    if not existing_task:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    cursor.execute("UPDATE tasks SET completed = 1 WHERE id = ? AND user_id = ?",
+                (task_id, user["Id"]))
+                
+    conn.commit()
+    conn.close()
+
+    return {"message": "Task updated successfully!"}
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int, user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", (task_id, user["Id"]))
+    existing_task = cursor.fetchone()
+
+    if not existing_task:
+        conn.close()
+        raise HTTPException(status_code=404, detail="Task not found")
+
+    cursor.execute("DELETE FROM tasks WHERE id = ? AND user_id = ?", (task_id, user["Id"]))
+    conn.commit()
+    conn.close()
+
+    return {"message": "Task deleted successfully!"}
