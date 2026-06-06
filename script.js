@@ -16,32 +16,32 @@ function carregarTarefas() {
         lista.innerHTML = ""
 
         data.tasks.forEach(task => {
-    const item = document.createElement("li")
-    item.innerText = task.title
+            const item = document.createElement("li")
+            item.innerText = task.title
 
-    // botão de concluir
-    const btnConcluir = document.createElement("button")
-    btnConcluir.innerText = "✓"
-    btnConcluir.onclick = () => concluirTarefa(task.id)
+            const btnConcluir = document.createElement("button")
+            btnConcluir.innerText = "✓"
+            btnConcluir.onclick = () => concluirTarefa(task.id)
 
-    // botão de deletar
-    const btnDeletar = document.createElement("button")
-    btnDeletar.innerText = "✕"
-    btnDeletar.onclick = () => deletarTarefa(task.id)
+            const btnDeletar = document.createElement("button")
+            btnDeletar.innerText = "✕"
+            btnDeletar.onclick = () => deletarTarefa(task.id)
 
-    // se já estiver concluída, risca o texto
-    if (task.completed) {
-        item.style.textDecoration = "line-through"
-        item.style.opacity = "0.5"
-    }
+            if (task.completed) {
+                item.style.textDecoration = "line-through"
+                item.style.opacity = "0.5"
+            }
 
-    item.appendChild(btnConcluir)
-    item.appendChild(btnDeletar)
-    lista.appendChild(item)
-})
+            const divBotoes = document.createElement("div")
+            divBotoes.style.display = "flex"
+            divBotoes.style.gap = "0.5vh"
+            divBotoes.appendChild(btnConcluir)
+            divBotoes.appendChild(btnDeletar)
+            item.appendChild(divBotoes)
+            lista.appendChild(item)
         })
-    }
-
+    })
+}
 
 carregarTarefas()
 

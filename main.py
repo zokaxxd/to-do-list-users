@@ -226,7 +226,7 @@ def get_tasks(user: dict = Depends(verify_token)):
     return {"tasks": tasks}
 
 @app.put("/tasks/{task_id}")
-def update_task(task_id: int, task: TaskCreate, user: dict = Depends(verify_token)):
+def update_task(task_id: int, user: dict = Depends(verify_token)):
     conn, cursor = get_db()
     cursor.execute("SELECT * FROM tasks WHERE id = ? AND user_id = ?", (task_id, user["Id"]))
     existing_task = cursor.fetchone()

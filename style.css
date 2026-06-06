@@ -81,9 +81,31 @@ margin-top: 4vh;
     border-radius: 1vh;
     text-align: left;
     font-size: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-#to-do-list li:hover {
-    border: 1px solid #ffffff;
-    transition: 0.3s;
+#to-do-list li button {
+    border: none;
+    border-radius: 0.5vh;
+    padding: 0.5vh 1vh;
+    cursor: pointer;
+    font-size: 1.5vh;
+    margin-left: 0vh;
+}
+
+#to-do-list li button:first-of-type {
+    background-color: #4d4d4d;
+    color: #ffffff;
+}
+
+#to-do-list li button:last-of-type {
+    background-color: #3b3b3b;
+    color: #ffffff;
+}
+#to-do-list li button:hover {
+    background-color: #ffffff;
+    color: #0c0c0c;
+    transition: 0.5s;
 }
