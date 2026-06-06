@@ -85,3 +85,12 @@ function deletarTarefa(id) {
     })
     .then(() => carregarTarefas())
 }
+document.querySelector(".clea").addEventListener("click", function() {
+    fetch("http://127.0.0.1:8000/tasks/completed", {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(() => carregarTarefas())
+})

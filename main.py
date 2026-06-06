@@ -243,6 +243,15 @@ def update_task(task_id: int, user: dict = Depends(verify_token)):
 
     return {"message": "Task updated successfully!"}
 
+@app.delete("/tasks/completed")
+def delete_completed_tasks(user: dict = Depends(verify_token)):
+    conn, cursor = get_db()
+    cursor.execute("DELETE FROM tasks WHERE completed = 1 AND user_id = ?", (user["Id"],))
+    conn.commit()
+    conn.close()
+
+    return {"message": "Completed tasks deleted successfully!"}
+
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: int, user: dict = Depends(verify_token)):
     conn, cursor = get_db()
