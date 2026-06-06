@@ -1,12 +1,12 @@
-body
-{
+body {
     background-color: #1b1b1b;
     font-family: Arial, sans-serif;
     color: #ffffff;
     text-align: center;
-    align-items: center;
+    margin: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .box-msg
@@ -24,9 +24,14 @@ body
     border: 2px solid #ffffff;
     transition: 0.5s;
 }
-.buttons
-{
-    margin-top: 55vh;
+.buttons {
+    position: fixed;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2vh;
+    
 }
 .clea
 {
@@ -61,4 +66,24 @@ margin-top: 4vh;
     background-color: #ffffff;
     color: #0c0c0c;
     transition: 0.9s;
+}
+#to-do-list {
+    list-style: none;
+    padding: 0;
+    margin: 2vh auto;
+    width: 50vh;
+}
+
+#to-do-list li {
+    background-color: #272727;
+    padding: 2vh;
+    margin-bottom: 1vh;
+    border-radius: 1vh;
+    text-align: left;
+    font-size: 2vh;
+}
+
+#to-do-list li:hover {
+    border: 1px solid #ffffff;
+    transition: 0.3s;
 }

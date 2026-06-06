@@ -76,7 +76,7 @@ def create_table_tasks():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
         completed INTEGER DEFAULT 0,
-        user_id INTEGER,
+        user_id INTEGER
         )
         """)
     conn.commit()
